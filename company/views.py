@@ -46,4 +46,4 @@ class TaskListView(generic.ListView):
 
 
 class WorkerListView(generic.ListView):
-    model = Worker
+    queryset = Worker.objects.select_related("position")
