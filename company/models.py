@@ -69,3 +69,7 @@ class Task(models.Model):
 
     def __str__(self):
         return f"{self.name} {self.task_type.name}"
+
+    @property
+    def print_bool(self):
+        return "Done" if self.is_completed else "In work"
