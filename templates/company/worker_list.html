@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>
+      Worker List
+    </h1>
+
+    {% if worker_list %}
+    <table class="table">
+      <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Worker position</th>
+      </tr>
+    {% for worker in worker_list %}
+      <tr>
+        <td>{{ worker.id }}</td>
+        <td><a href="{{ worker.get_absolute_url }}">{{ worker.username }} {% if user == driver %} (Me){% endif %}</a></td>
+        <td>{{ worker.first_name }}</td>
+        <td>{{ worker.last_name }}</td>
+        <td>{{ worker.position }}</td>
+      </tr>
+    {% endfor %}
+
+    </table>
+    {% else %}
+      <p>There are no workers in the company.</p>
+    {% endif %}
+{% endblock %}
