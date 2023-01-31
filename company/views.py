@@ -29,3 +29,21 @@ class IndexView(generic.TemplateView):
         context["num_visits"] = self.request.session.get("num_visits", 1)
 
         return context
+
+
+class TaskTypeListView(generic.ListView):
+    model = TaskType
+    template_name = "company/task_types_list.html"
+    context_object_name = "task_types_list"
+
+
+class PositionListView(generic.ListView):
+    model = Position
+
+
+class TaskListView(generic.ListView):
+    model = Task
+
+
+class WorkerListView(generic.ListView):
+    model = Worker
