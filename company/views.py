@@ -39,6 +39,7 @@ class TaskTypeListView(generic.ListView):
     model = TaskType
     template_name = "company/task_types_list.html"
     context_object_name = "task_types_list"
+    paginate_by = 15
 
 
 class TaskTypeDetailView(generic.DetailView):
@@ -53,6 +54,7 @@ class PositionListView(generic.ListView):
     """Class for viewing the list of positions on the site"""
 
     model = Position
+    paginate_by = 20
 
 
 class PositionDetailView(generic.DetailView):
@@ -65,6 +67,7 @@ class TaskListView(generic.ListView):
     """Class for viewing the list of tasks on the site"""
 
     model = Task
+    paginate_by = 10
 
 
 class TaskDetailView(generic.DetailView):
@@ -77,6 +80,7 @@ class WorkerListView(generic.ListView):
     """Class for viewing the list of workers on the site"""
 
     queryset = Worker.objects.select_related("position")
+    paginate_by = 5
 
 
 class WorkerDetailView(generic.DetailView):
