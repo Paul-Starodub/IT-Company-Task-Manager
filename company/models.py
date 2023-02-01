@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.urls import reverse
 
 
 class TaskType(models.Model):
@@ -11,6 +12,9 @@ class TaskType(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse("company:task-type-detail", kwargs={"pk": self.pk})
 
 
 class Position(models.Model):
@@ -38,6 +42,13 @@ class Worker(AbstractUser):
     def __str__(self):
         return f"{self.username} ({self.first_name} {self.last_name})"
 
+    @property
+    def print_active(self):
+        return "Yes" if self.is_active else "No"
+
+    def get_absolute_url(self):
+        return reverse("company:worker-detail", kwargs={"pk": self.pk})
+
 
 class Task(models.Model):
     PRIORITY_CHOICES = (
@@ -61,7 +72,8 @@ class Task(models.Model):
     )
     assignees = models.ManyToManyField(
         settings.AUTH_USER_MODEL,
-        related_name="tasks"
+        related_name="tasks",
+        blank=True  # can add tasks without assignees from admin panel
     )
 
     class Meta:
@@ -73,3 +85,6 @@ class Task(models.Model):
     @property
     def print_bool(self):
         return "Done" if self.is_completed else "In work"
+
+    def get_absolute_url(self):
+        return reverse("company:task-detail", kwargs={"pk": self.pk})
