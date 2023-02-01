@@ -10,10 +10,10 @@ class TaskType(models.Model):
     class Meta:
         ordering = ["name"]
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
-    def get_absolute_url(self):
+    def get_absolute_url(self) -> str:
         return reverse("company:task-type-detail", kwargs={"pk": self.pk})
 
 
@@ -23,7 +23,7 @@ class Position(models.Model):
     class Meta:
         ordering = ["name"]
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
 
@@ -39,14 +39,22 @@ class Worker(AbstractUser):
         verbose_name_plural = "workers"
         ordering = ["first_name", "last_name"]
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.username} ({self.first_name} {self.last_name})"
 
-    @property
-    def print_active(self):
-        return "Yes" if self.is_active else "No"
+    @staticmethod
+    def print_status(position: bool) -> str:
+        return "Yes" if position else "No"
 
-    def get_absolute_url(self):
+    @property
+    def print_active(self) -> str:
+        return self.print_status(self.is_active)
+
+    @property
+    def print_staff(self) -> str:
+        return self.print_status(self.is_staff)
+
+    def get_absolute_url(self) -> str:
         return reverse("company:worker-detail", kwargs={"pk": self.pk})
 
 
@@ -79,12 +87,12 @@ class Task(models.Model):
     class Meta:
         ordering = ["-deadline"]
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.name} {self.task_type.name}"
 
     @property
-    def print_bool(self):
+    def print_completed(self) -> str:
         return "Done" if self.is_completed else "In work"
 
-    def get_absolute_url(self):
+    def get_absolute_url(self) -> str:
         return reverse("company:task-detail", kwargs={"pk": self.pk})
