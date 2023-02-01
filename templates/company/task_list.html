@@ -20,13 +20,13 @@
               {{ task.id }}
           </td>
           <td>
-              {{ task.name }}
+              <a href="{{  task.get_absolute_url }}">{{ task.name }}</a>
           </td>
           <td>
               {{ task.deadline }}
           </td>
           <td>
-              {{ task.print_bool }}
+              {{ task.print_completed }}
           </td>
           <td>
               {{ task.get_priority_display }}

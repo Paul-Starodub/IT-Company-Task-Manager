@@ -15,7 +15,7 @@
               {{ type.id }}
           </td>
           <td>
-              {{ type.name }}
+            <a href="{{ type.get_absolute_url }}">{{ type.name }}</a>
           </td>
         </tr>
       {% endfor %}

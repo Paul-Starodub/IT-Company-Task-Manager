@@ -15,7 +15,7 @@
               {{ position.id }}
           </td>
           <td>
-              {{ position.name }}
+              <a href="{% url 'company:position-detail' pk=position.pk %}">{{ position.name }}</a>
           </td>
         </tr>
       {% endfor %}
