@@ -6,6 +6,7 @@ from company.views import (
     TaskTypeDetailView,
     PositionListView,
     PositionDetailView,
+    PositionCreateView,
     TaskListView,
     TaskDetailView,
     WorkerListView,
@@ -38,6 +39,11 @@ urlpatterns = [
         "positions/<int:pk>/",
         PositionDetailView.as_view(),
         name="position-detail"
+    ),
+    path(
+        "positions/create/",
+        PositionCreateView.as_view(),
+        name="position-create"
     ),
     path(
         "tasks/",

@@ -1,7 +1,12 @@
 {% extends "base.html" %}
 
 {% block content %}
-
+  <h1>
+    Position List
+    <a href="{% url 'company:position-create' %}" class="btn btn-outline-primary link-to-page">
+      Create
+    </a>
+  </h1>
   {% if position_list %}
     <table class="table">
       <tr>

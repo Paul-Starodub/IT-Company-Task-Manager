@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
 from django.views import generic
 
 from company.models import TaskType, Position, Worker, Task
@@ -62,6 +63,13 @@ class PositionDetailView(LoginRequiredMixin, generic.DetailView):
     """Class for viewing the detail information about position on the site """
 
     model = Position
+
+
+class PositionCreateView(LoginRequiredMixin, generic.CreateView):
+    """Class for creating a new position"""
+    model = Position
+    fields = "__all__"
+    success_url = reverse_lazy("company:position-list")
 
 
 class TaskListView(LoginRequiredMixin, generic.ListView):
