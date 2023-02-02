@@ -3,31 +3,35 @@
 {% block content %}
   <h1>
     Position List
-    <a href="{% url 'company:position-create' %}" class="btn btn-outline-primary link-to-page">
-      Create
-    </a>
+    <a style="float: right" class="btn btn-secondary" href="{% url 'company:position-create' %}">Create</a>
   </h1>
   {% if position_list %}
     <table class="table">
       <tr>
         <th>ID</th>
         <th>Name</th>
+        <th>Update</th>
+        <th>Delete</th>
       </tr>
-
       {% for position in position_list %}
         <tr>
           <td>
-              {{ position.id }}
+            {{ position.id }}
           </td>
           <td>
-              <a href="{% url 'company:position-detail' pk=position.pk %}">{{ position.name }}</a>
+            {{ position.name }}
+          </td>
+          <td>
+            <a href="{% url 'company:position-update' pk=position.pk %}">UPDATE</a>
+          </td>
+          <td>
+            <a href="{% url 'company:position-delete' pk=position.pk %}">DELETE</a>
           </td>
         </tr>
       {% endfor %}
+
     </table>
-
-  {% else %}
-      <p>There are no positions in the company.</p>
+  {% else  %}
+    <p>There are not positions in company</p>
   {% endif %}
-
 {% endblock %}

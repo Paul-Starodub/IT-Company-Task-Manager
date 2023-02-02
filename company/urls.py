@@ -10,6 +10,8 @@ from company.views import (
     PositionListView,
     PositionDetailView,
     PositionCreateView,
+    PositionUpdateView,
+    PositionDeleteView,
     TaskListView,
     TaskDetailView,
     TaskCreateView,
@@ -62,6 +64,16 @@ urlpatterns = [
         "positions/create/",
         PositionCreateView.as_view(),
         name="position-create"
+    ),
+    path(
+        "positions/<int:pk>/update/",
+        PositionUpdateView.as_view(),
+        name="position-update"
+    ),
+    path(
+        "positions/<int:pk>/delete/",
+        PositionDeleteView.as_view(),
+        name="position-delete"
     ),
     path(
         "tasks/",
