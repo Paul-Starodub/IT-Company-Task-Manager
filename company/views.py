@@ -52,6 +52,15 @@ class TaskTypeDetailView(LoginRequiredMixin, generic.DetailView):
     template_name = "company/task_type_detail.html"
 
 
+class TaskTypeCreateView(LoginRequiredMixin, generic.CreateView):
+    """Class for creating a new type task"""
+
+    model = TaskType
+    fields = "__all__"
+    template_name = "company/task_type_form.html"
+    success_url = reverse_lazy("company:task-types-list")
+
+
 class PositionListView(LoginRequiredMixin, generic.ListView):
     """Class for viewing the list of positions on the site"""
 
@@ -67,6 +76,7 @@ class PositionDetailView(LoginRequiredMixin, generic.DetailView):
 
 class PositionCreateView(LoginRequiredMixin, generic.CreateView):
     """Class for creating a new position"""
+
     model = Position
     fields = "__all__"
     success_url = reverse_lazy("company:position-list")

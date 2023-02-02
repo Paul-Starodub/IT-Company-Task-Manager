@@ -9,6 +9,7 @@ from company.views import (
     PositionCreateView,
     TaskListView,
     TaskDetailView,
+    TaskTypeCreateView,
     WorkerListView,
     WorkerDetailView,
 )
@@ -29,7 +30,11 @@ urlpatterns = [
         TaskTypeDetailView.as_view(),
         name="task-type-detail"
     ),
-
+    path(
+        "tasks-types/create/",
+        TaskTypeCreateView.as_view(),
+        name="task-type-create"
+    ),
     path(
         "positions/",
         PositionListView.as_view(),
@@ -65,7 +70,6 @@ urlpatterns = [
         WorkerDetailView.as_view(),
         name="worker-detail"
     ),
-
 ]
 
 app_name = "company"
