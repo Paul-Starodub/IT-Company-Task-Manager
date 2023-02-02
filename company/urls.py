@@ -4,12 +4,15 @@ from company.views import (
     IndexView,
     TaskTypeListView,
     TaskTypeDetailView,
+    TaskTypeCreateView,
+    TaskTypeUpdateView,
+    TaskTypeDeleteView,
     PositionListView,
     PositionDetailView,
     PositionCreateView,
     TaskListView,
     TaskDetailView,
-    TaskTypeCreateView,
+    TaskCreateView,
     WorkerListView,
     WorkerDetailView,
 )
@@ -36,6 +39,16 @@ urlpatterns = [
         name="task-type-create"
     ),
     path(
+        "tasks-types/<int:pk>/update/",
+        TaskTypeUpdateView.as_view(),
+        name="task-type-update"
+    ),
+    path(
+        "tasks-types/<int:pk>/delete/",
+        TaskTypeDeleteView.as_view(),
+        name="task-type-delete"
+    ),
+    path(
         "positions/",
         PositionListView.as_view(),
         name="position-list"
@@ -59,6 +72,11 @@ urlpatterns = [
         "tasks/<int:pk>/",
         TaskDetailView.as_view(),
         name="task-detail"
+    ),
+    path(
+        "tasks/create/",
+        TaskCreateView.as_view(),
+        name="task-create"
     ),
     path(
         "workers/",

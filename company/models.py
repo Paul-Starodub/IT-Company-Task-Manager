@@ -81,7 +81,6 @@ class Task(models.Model):
     assignees = models.ManyToManyField(
         settings.AUTH_USER_MODEL,
         related_name="tasks",
-        blank=True  # can add tasks without assignees from admin panel
     )
 
     class Meta:
