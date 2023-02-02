@@ -1,11 +1,12 @@
 from datetime import datetime
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
 
 from company.models import TaskType, Position, Worker, Task
 
 
-class IndexView(generic.TemplateView):
+class IndexView(LoginRequiredMixin, generic.TemplateView):
     """Class for viewing the home page on the site"""
 
     template_name = "company/index.html"
@@ -33,7 +34,7 @@ class IndexView(generic.TemplateView):
         return context
 
 
-class TaskTypeListView(generic.ListView):
+class TaskTypeListView(LoginRequiredMixin, generic.ListView):
     """Class for viewing the list of task types on the site"""
 
     model = TaskType
@@ -42,7 +43,7 @@ class TaskTypeListView(generic.ListView):
     paginate_by = 15
 
 
-class TaskTypeDetailView(generic.DetailView):
+class TaskTypeDetailView(LoginRequiredMixin, generic.DetailView):
     """Class for viewing the detail information about task type on the site """
 
     model = TaskType
@@ -50,40 +51,40 @@ class TaskTypeDetailView(generic.DetailView):
     template_name = "company/task_type_detail.html"
 
 
-class PositionListView(generic.ListView):
+class PositionListView(LoginRequiredMixin, generic.ListView):
     """Class for viewing the list of positions on the site"""
 
     model = Position
     paginate_by = 20
 
 
-class PositionDetailView(generic.DetailView):
+class PositionDetailView(LoginRequiredMixin, generic.DetailView):
     """Class for viewing the detail information about position on the site """
 
     model = Position
 
 
-class TaskListView(generic.ListView):
+class TaskListView(LoginRequiredMixin, generic.ListView):
     """Class for viewing the list of tasks on the site"""
 
     model = Task
     paginate_by = 10
 
 
-class TaskDetailView(generic.DetailView):
+class TaskDetailView(LoginRequiredMixin, generic.DetailView):
     """Class for viewing the detail information about task on the site """
 
     model = Task
 
 
-class WorkerListView(generic.ListView):
+class WorkerListView(LoginRequiredMixin, generic.ListView):
     """Class for viewing the list of workers on the site"""
 
     queryset = Worker.objects.select_related("position")
     paginate_by = 5
 
 
-class WorkerDetailView(generic.DetailView):
+class WorkerDetailView(LoginRequiredMixin, generic.DetailView):
     """Class for viewing the detail information about worker on the site """
 
     model = Worker
