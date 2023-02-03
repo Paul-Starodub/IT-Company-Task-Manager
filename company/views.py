@@ -4,6 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views import generic
 
+from company.forms import TaskForm
 from company.models import TaskType, Position, Worker, Task
 
 
@@ -132,6 +133,21 @@ class TaskCreateView(LoginRequiredMixin, generic.CreateView):
 
     model = Task
     fields = "__all__"
+    success_url = reverse_lazy("company:task-list")
+
+
+class TaskUpdateView(LoginRequiredMixin, generic.UpdateView):
+    """Class for update task"""
+
+    model = Task
+    form_class = TaskForm
+    success_url = reverse_lazy("company:task-list")
+
+
+class TaskDeleteView(LoginRequiredMixin, generic.DeleteView):
+    """Class for delete task"""
+
+    model = Task
     success_url = reverse_lazy("company:task-list")
 
 
