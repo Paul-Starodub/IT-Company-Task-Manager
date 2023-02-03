@@ -4,6 +4,12 @@
   <h1>
     Username: {{ worker.username }}
   </h1>
+  <a href="{% url 'company:worker-delete' pk=worker.pk %}" class="btn btn-danger link-to-page">
+    Delete
+  </a>
+  <a href="{% url 'company:worker-update' pk=worker.pk %}" class="btn btn-secondary link-to-page">
+    Update position
+  </a>
   <p><strong>First name:</strong> {{ worker.first_name }}</p>
   <p><strong>Last name:</strong> {{ worker.last_name }}</p>
   <p><strong>Email:</strong> {{ worker.email }}</p>

@@ -24,6 +24,15 @@
   <hr>
   <div class="ml-3">
     <h4>Workers:</h4>
+    {% if worker not in task.assignees.all %}
+      <a href="{% url 'company:worker-update-task' pk=task.pk %}" class="btn btn-success link-to-page">
+        Assign me to this task
+      </a>
+    {% else %}
+      <a href="{% url 'company:worker-update-task' pk=task.pk %}" class="btn btn-danger link-to-page">
+        Delete me from this task
+      </a>
+    {% endif %}
     {% for worker in task.assignees.all %}
         <strong>Username:</strong>
         {{ worker.username }}
