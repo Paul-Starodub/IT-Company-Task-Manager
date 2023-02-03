@@ -1,7 +1,27 @@
 from django import forms
 from django.contrib.auth import get_user_model
+from company.models import Task, Worker, Position
+from django.contrib.auth.forms import UserCreationForm
 
-from company.models import Task
+
+class WorkerCreationForm(UserCreationForm):
+
+    class Meta(UserCreationForm.Meta):
+        model = Worker
+        fields = UserCreationForm.Meta.fields + (
+            "first_name", "last_name", "position"
+        )
+
+
+class WorkerPositionUpdateForm(forms.ModelForm):
+    position = forms.ModelChoiceField(
+        queryset=Position.objects.all(),
+        widget=forms.RadioSelect,
+    )
+
+    class Meta:
+        model = Worker
+        fields = ("position",)
 
 
 class TaskForm(forms.ModelForm):
