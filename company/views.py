@@ -7,7 +7,7 @@ from django.urls import reverse_lazy, reverse
 from django.views import generic
 
 from company.forms import (
-    TaskForm,
+    TaskUpdateForm,
     WorkerCreationForm,
     WorkerPositionUpdateForm
 )
@@ -156,7 +156,7 @@ class TaskUpdateView(LoginRequiredMixin, generic.UpdateView):
     """Class for update task"""
 
     model = Task
-    form_class = TaskForm
+    form_class = TaskUpdateForm
     success_url = reverse_lazy("company:task-list")
 
 

@@ -24,7 +24,7 @@ class WorkerPositionUpdateForm(forms.ModelForm):
         fields = ("position",)
 
 
-class TaskForm(forms.ModelForm):
+class TaskUpdateForm(forms.ModelForm):
     assignees = forms.ModelMultipleChoiceField(
         queryset=get_user_model().objects.all(),
         widget=forms.CheckboxSelectMultiple,
