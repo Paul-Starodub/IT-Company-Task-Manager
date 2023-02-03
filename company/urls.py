@@ -19,6 +19,10 @@ from company.views import (
     TaskDeleteView,
     WorkerListView,
     WorkerDetailView,
+    WorkerCreateView,
+    WorkerUpdateView,
+    WorkerDeleteView,
+    WorkerTaskListView,
 )
 
 urlpatterns = [
@@ -111,6 +115,26 @@ urlpatterns = [
         "workers/<int:pk>/",
         WorkerDetailView.as_view(),
         name="worker-detail"
+    ),
+    path(
+        "workers/create/",
+        WorkerCreateView.as_view(),
+        name="worker-create"
+    ),
+    path(
+        "workers/<int:pk>/delete/",
+        WorkerDeleteView.as_view(),
+        name="worker-delete"
+    ),
+    path(
+        "workers/<int:pk>/update/",
+        WorkerUpdateView.as_view(),
+        name="worker-update"
+    ),
+    path(
+        "tasks/<int:pk>/add/",
+        WorkerTaskListView.as_view(),
+        name="worker-update-task"
     ),
 ]
 

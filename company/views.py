@@ -1,11 +1,22 @@
 from datetime import datetime
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse_lazy
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404
+from django.urls import reverse_lazy, reverse
 from django.views import generic
 
-from company.forms import TaskForm
-from company.models import TaskType, Position, Worker, Task
+from company.forms import (
+    TaskForm,
+    WorkerCreationForm,
+    WorkerPositionUpdateForm
+)
+from company.models import (
+    TaskType,
+    Position,
+    Worker,
+    Task
+)
 
 
 class IndexView(LoginRequiredMixin, generic.TemplateView):
@@ -127,12 +138,17 @@ class TaskDetailView(LoginRequiredMixin, generic.DetailView):
 
     model = Task
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["worker"] = get_object_or_404(Worker, pk=self.request.user.pk)
+        return context
+
 
 class TaskCreateView(LoginRequiredMixin, generic.CreateView):
     """Class for creating a new task"""
 
     model = Task
-    fields = "__all__"
+    fields = ("name", "description", "deadline", "priority", "task_type")
     success_url = reverse_lazy("company:task-list")
 
 
@@ -162,3 +178,44 @@ class WorkerDetailView(LoginRequiredMixin, generic.DetailView):
     """Class for viewing the detail information about worker on the site """
 
     model = Worker
+
+
+class WorkerCreateView(LoginRequiredMixin, generic.CreateView):
+    """Class for creating a new worker"""
+
+    model = Worker
+    form_class = WorkerCreationForm
+
+
+class WorkerUpdateView(LoginRequiredMixin, generic.UpdateView):
+    """Class for update position of worker"""
+
+    model = Worker
+    form_class = WorkerPositionUpdateForm
+    success_url = reverse_lazy("company:worker-list")
+
+
+class WorkerTaskListView(LoginRequiredMixin, generic.ListView):
+    """Class for assigning a worker to a task"""
+
+    model = Task
+    fields = "__all__"
+    success_url = reverse_lazy("company:task-list")
+
+    def get(self, request, *args, **kwargs):
+        task = get_object_or_404(Task, pk=self.kwargs["pk"])
+        worker = get_object_or_404(Worker, pk=self.request.user.pk)
+        if worker not in task.assignees.all():
+            task.assignees.add(worker)
+        else:
+            task.assignees.remove(worker)
+        return HttpResponseRedirect(
+            reverse("company:task-detail", kwargs={"pk": self.kwargs["pk"]})
+        )
+
+
+class WorkerDeleteView(LoginRequiredMixin, generic.DeleteView):
+    """Class for delete the worker"""
+
+    model = Worker
+    success_url = reverse_lazy("company:worker-list")

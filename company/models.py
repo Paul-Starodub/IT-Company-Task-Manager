@@ -75,12 +75,14 @@ class Task(models.Model):
         default="A"
     )
     task_type = models.ForeignKey(
-        TaskType, on_delete=models.CASCADE,
+        TaskType,
+        on_delete=models.CASCADE,
         related_name="tasks"
     )
     assignees = models.ManyToManyField(
         settings.AUTH_USER_MODEL,
         related_name="tasks",
+        blank=True
     )
 
     class Meta:
