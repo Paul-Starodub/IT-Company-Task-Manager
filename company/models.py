@@ -1,7 +1,15 @@
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
+from django.utils.timezone import now
+
+
+def validate_deadline(deadline):
+    today = now()
+    if (deadline.month - today.month) < 1:
+        raise ValidationError("Give it at least a month")
 
 
 class TaskType(models.Model):
@@ -67,7 +75,7 @@ class Task(models.Model):
 
     name = models.CharField(max_length=255, unique=True)
     description = models.TextField()
-    deadline = models.DateField()
+    deadline = models.DateField(validators=[validate_deadline])
     is_completed = models.BooleanField(default=False)
     priority = models.CharField(
         max_length=1,
