@@ -10,7 +10,7 @@ from company.forms import (
     TaskUpdateForm,
     WorkerCreationForm,
     WorkerPositionUpdateForm,
-    PositionSearchForm
+    NameSearchForm
 )
 from company.models import (
     TaskType,
@@ -56,6 +56,26 @@ class TaskTypeListView(LoginRequiredMixin, generic.ListView):
     context_object_name = "task_types_list"
     paginate_by = 15
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        name = self.request.GET.get("name", "")
+        context["search_form"] = NameSearchForm(
+            initial={
+                "model": name
+            }
+        )
+
+        return context
+
+    def get_queryset(self):
+        form = NameSearchForm(self.request.GET)
+        queryset = TaskType.objects.all()
+
+        if form.is_valid():
+            return queryset.filter(name__icontains=form.cleaned_data["name"])
+
+        return queryset
+
 
 class TaskTypeDetailView(LoginRequiredMixin, generic.DetailView):
     """Class for viewing the detail information about task type on the site """
@@ -100,7 +120,7 @@ class PositionListView(LoginRequiredMixin, generic.ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         name = self.request.GET.get("name", "")
-        context["search_form"] = PositionSearchForm(
+        context["search_form"] = NameSearchForm(
             initial={
                 "model": name
             }
@@ -109,7 +129,7 @@ class PositionListView(LoginRequiredMixin, generic.ListView):
         return context
 
     def get_queryset(self):
-        form = PositionSearchForm(self.request.GET)
+        form = NameSearchForm(self.request.GET)
         queryset = Position.objects.all()
 
         if form.is_valid():

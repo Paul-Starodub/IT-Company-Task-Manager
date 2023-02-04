@@ -44,7 +44,7 @@ class TaskUpdateForm(forms.ModelForm):
         return description
 
 
-class PositionSearchForm(forms.Form):
+class NameSearchForm(forms.Form):
     name = forms.CharField(
         max_length=255,
         required=False,

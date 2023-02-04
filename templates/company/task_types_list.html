@@ -5,6 +5,10 @@
     Task Type List
     <a style="float: right" class="btn btn-secondary" href="{% url 'company:task-type-create' %}">Create</a>
   </h1>
+  <form action="" method="get" class="form-inline">
+    {{ search_form.name }}
+    <input class="btn btn-secondary" type="submit" value="🔎">
+  </form>
   {% if task_types_list %}
     <table class="table">
       <tr>
