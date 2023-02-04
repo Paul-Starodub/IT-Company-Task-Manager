@@ -10,7 +10,8 @@ from company.forms import (
     TaskUpdateForm,
     WorkerCreationForm,
     WorkerPositionUpdateForm,
-    NameSearchForm
+    NameSearchForm,
+    WorkerSearchForm
 )
 from company.models import (
     TaskType,
@@ -51,7 +52,6 @@ class IndexView(LoginRequiredMixin, generic.TemplateView):
 class TaskTypeListView(LoginRequiredMixin, generic.ListView):
     """Class for viewing the list of task types on the site"""
 
-    model = TaskType
     template_name = "company/task_types_list.html"
     context_object_name = "task_types_list"
     paginate_by = 15
@@ -61,7 +61,7 @@ class TaskTypeListView(LoginRequiredMixin, generic.ListView):
         name = self.request.GET.get("name", "")
         context["search_form"] = NameSearchForm(
             initial={
-                "model": name
+                "name": name
             }
         )
 
@@ -114,7 +114,6 @@ class TaskTypeDeleteView(LoginRequiredMixin, generic.DeleteView):
 class PositionListView(LoginRequiredMixin, generic.ListView):
     """Class for viewing the list of positions on the site"""
 
-    model = Position
     paginate_by = 20
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -122,7 +121,7 @@ class PositionListView(LoginRequiredMixin, generic.ListView):
         name = self.request.GET.get("name", "")
         context["search_form"] = NameSearchForm(
             initial={
-                "model": name
+                "name": name
             }
         )
 
@@ -170,7 +169,7 @@ class PositionDeleteView(LoginRequiredMixin, generic.DeleteView):
 class TaskListView(LoginRequiredMixin, generic.ListView):
     """Class for viewing the list of tasks on the site"""
 
-    model = Task
+    # model = Task
     paginate_by = 10
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -178,7 +177,7 @@ class TaskListView(LoginRequiredMixin, generic.ListView):
         name = self.request.GET.get("name", "")
         context["search_form"] = NameSearchForm(
             initial={
-                "model": name
+                "name": name
             }
         )
 
@@ -232,8 +231,23 @@ class TaskDeleteView(LoginRequiredMixin, generic.DeleteView):
 class WorkerListView(LoginRequiredMixin, generic.ListView):
     """Class for viewing the list of workers on the site"""
 
-    queryset = Worker.objects.select_related("position")
     paginate_by = 5
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["search_form"] = WorkerSearchForm()
+        return context
+
+    def get_queryset(self):
+        form = WorkerSearchForm(self.request.GET)
+        queryset = Worker.objects.select_related("position")
+
+        if form.is_valid():
+            return queryset.filter(
+                username__icontains=form.cleaned_data["name_user"]
+            )
+
+        return queryset
 
 
 class WorkerDetailView(LoginRequiredMixin, generic.DetailView):
