@@ -140,7 +140,8 @@ class TaskDetailView(LoginRequiredMixin, generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["worker"] = get_object_or_404(Worker, pk=self.request.user.pk)
+        context["task_workers"] = self.object.assignees.all()
+        context["worker"] = self.request.user
         return context
 
 
