@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
 from company.models import Task, Worker, Position
 from django.contrib.auth.forms import UserCreationForm
 
@@ -27,10 +28,17 @@ class WorkerPositionUpdateForm(forms.ModelForm):
 class TaskUpdateForm(forms.ModelForm):
     assignees = forms.ModelMultipleChoiceField(
         queryset=get_user_model().objects.all(),
-        widget=forms.CheckboxSelectMultiple,
-        required=False,
+        widget=forms.CheckboxSelectMultiple
     )
 
     class Meta:
         model = Task
-        fields = ("deadline", "priority", "is_completed", "assignees")
+        fields = ("description", "priority", "is_completed", "assignees")
+
+    def clean_description(self):
+        description = self.cleaned_data["description"]
+        if not (description[:1].isupper() and description[:1].isalpha()):
+            raise ValidationError(
+                "First character must be capital letter"
+            )
+        return description
