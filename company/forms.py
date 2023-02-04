@@ -42,3 +42,12 @@ class TaskUpdateForm(forms.ModelForm):
                 "First character must be capital letter"
             )
         return description
+
+
+class PositionSearchForm(forms.Form):
+    name = forms.CharField(
+        max_length=255,
+        required=False,
+        label="",
+        widget=forms.TextInput(attrs={"placeholder": "Search by name"})
+    )
