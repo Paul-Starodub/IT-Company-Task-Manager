@@ -10,7 +10,6 @@ from company.forms import (
     TaskUpdateForm,
     WorkerCreationForm,
     WorkerPositionUpdateForm,
-    NameSearchForm,
     WorkerSearchForm
 )
 from company.models import (
@@ -19,6 +18,7 @@ from company.models import (
     Worker,
     Task
 )
+from company.utils import SearchMixin
 
 
 class IndexView(LoginRequiredMixin, generic.TemplateView):
@@ -49,32 +49,13 @@ class IndexView(LoginRequiredMixin, generic.TemplateView):
         return context
 
 
-class TaskTypeListView(LoginRequiredMixin, generic.ListView):
+class TaskTypeListView(LoginRequiredMixin, SearchMixin, generic.ListView):
     """Class for viewing the list of task types on the site"""
 
     template_name = "company/task_types_list.html"
     context_object_name = "task_types_list"
     paginate_by = 15
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        name = self.request.GET.get("name", "")
-        context["search_form"] = NameSearchForm(
-            initial={
-                "name": name
-            }
-        )
-
-        return context
-
-    def get_queryset(self):
-        form = NameSearchForm(self.request.GET)
-        queryset = TaskType.objects.all()
-
-        if form.is_valid():
-            return queryset.filter(name__icontains=form.cleaned_data["name"])
-
-        return queryset
+    class_name = TaskType
 
 
 class TaskTypeDetailView(LoginRequiredMixin, generic.DetailView):
@@ -111,30 +92,11 @@ class TaskTypeDeleteView(LoginRequiredMixin, generic.DeleteView):
     template_name = "company/task_type_confirm_delete.html"
 
 
-class PositionListView(LoginRequiredMixin, generic.ListView):
+class PositionListView(LoginRequiredMixin, SearchMixin, generic.ListView):
     """Class for viewing the list of positions on the site"""
 
     paginate_by = 20
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        name = self.request.GET.get("name", "")
-        context["search_form"] = NameSearchForm(
-            initial={
-                "name": name
-            }
-        )
-
-        return context
-
-    def get_queryset(self):
-        form = NameSearchForm(self.request.GET)
-        queryset = Position.objects.all()
-
-        if form.is_valid():
-            return queryset.filter(name__icontains=form.cleaned_data["name"])
-
-        return queryset
+    class_name = Position
 
 
 class PositionDetailView(LoginRequiredMixin, generic.DetailView):
@@ -166,31 +128,11 @@ class PositionDeleteView(LoginRequiredMixin, generic.DeleteView):
     success_url = reverse_lazy("company:position-list")
 
 
-class TaskListView(LoginRequiredMixin, generic.ListView):
+class TaskListView(LoginRequiredMixin, SearchMixin, generic.ListView):
     """Class for viewing the list of tasks on the site"""
 
-    # model = Task
     paginate_by = 10
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        name = self.request.GET.get("name", "")
-        context["search_form"] = NameSearchForm(
-            initial={
-                "name": name
-            }
-        )
-
-        return context
-
-    def get_queryset(self):
-        form = NameSearchForm(self.request.GET)
-        queryset = Task.objects.all()
-
-        if form.is_valid():
-            return queryset.filter(name__icontains=form.cleaned_data["name"])
-
-        return queryset
+    class_name = Task
 
 
 class TaskDetailView(LoginRequiredMixin, generic.DetailView):
