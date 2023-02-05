@@ -3,6 +3,10 @@ from django.views.generic import ListView
 from company.forms import NameSearchForm
 
 
+class ClassNotDefined(Exception):
+    """Checks for the existence of a class name for a queryset"""
+
+
 class SearchMixin(ListView):
     class_name = None
 
@@ -18,6 +22,8 @@ class SearchMixin(ListView):
         return context
 
     def get_queryset(self):
+        if not self.class_name:
+            raise ClassNotDefined("Input name of class")
         form = NameSearchForm(self.request.GET)
         queryset = self.class_name.objects.all()
 
