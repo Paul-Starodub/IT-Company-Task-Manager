@@ -38,7 +38,7 @@ class PublicPositionTests(TestCase):
         self.assertNotEqual(response.status_code, 200)
 
 
-class PrivatePositionsTests(TestCase):
+class PrivatePositionTests(TestCase):
     def setUp(self) -> None:
         self.position = Position.objects.create(
             name="first_position"
@@ -100,7 +100,7 @@ class PrivatePositionsTests(TestCase):
 
     def test_pagination_is_six(self):
         response = self.client.get(POSITIONS_URL)
-        print(response)
+
         self.assertTrue("is_paginated" in response.context)
         self.assertFalse(response.context["is_paginated"])
         self.assertEqual(len(response.context["position_list"]), 6)
