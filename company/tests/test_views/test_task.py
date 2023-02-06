@@ -125,3 +125,36 @@ class PrivateTaskTests(TestCase):
         self.assertTrue("is_paginated" in response.context)
         self.assertTrue(response.context["is_paginated"])
         self.assertEqual(len(response.context["task_list"]), 10)
+
+
+class TaskDetailTests(TestCase):
+    def setUp(self) -> None:
+        self.task_type = TaskType.objects.create(
+            name="test778"
+        )
+
+        self.task = Task.objects.create(
+            name="test12345",
+            description="About task",
+            deadline=now(),
+            task_type=self.task_type
+        )
+
+        self.position = Position.objects.create(name="red")
+
+        self.worker = get_user_model().objects.create_user(
+            username="test",
+            password="password123",
+            position=self.position
+        )
+        self.client.force_login(self.worker)
+
+    def test_detail_task(self):
+        response = self.client.get(
+            reverse("company:task-detail", kwargs={"pk": self.task.id})
+        )
+
+        self.assertTemplateUsed(
+            response,
+            "company/task_detail.html"
+        )
