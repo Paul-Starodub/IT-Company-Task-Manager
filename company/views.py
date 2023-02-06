@@ -177,7 +177,13 @@ class WorkerListView(LoginRequiredMixin, generic.ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["search_form"] = WorkerSearchForm()
+        name_user = self.request.GET.get("name_user", "")
+        context["search_form"] = WorkerSearchForm(
+            initial={
+                "name_user": name_user
+            }
+        )
+
         return context
 
     def get_queryset(self):
