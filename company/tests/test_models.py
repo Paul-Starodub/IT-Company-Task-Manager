@@ -55,7 +55,10 @@ class TaskTests(TestCase):
 
     def test_task_str(self):
 
-        self.assertEqual(str(self.task), f"{self.task.name} {self.task.task_type.name}")
+        self.assertEqual(
+            str(self.task),
+            f"{self.task.name} {self.task.task_type.name}"
+        )
 
     def test_task_deadline(self):
 
@@ -95,7 +98,11 @@ class WorkerTests(TestCase):
 
     def test_worker_str(self):
 
-        self.assertEqual(str(self.worker), f"{self.worker.username} ({self.worker.first_name} {self.worker.last_name})")
+        self.assertEqual(
+            str(self.worker),
+            f"{self.worker.username} "
+            f"({self.worker.first_name} {self.worker.last_name})"
+        )
 
     def test_create_worker(self):
 
