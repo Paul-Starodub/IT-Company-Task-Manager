@@ -1,0 +1,123 @@
+from django.contrib.auth import get_user_model
+from django.test import TestCase
+from django.urls import reverse
+
+from company.models import Position
+
+WORKERS_URL = reverse("company:worker-list")
+
+
+class PublicWorkerTests(TestCase):
+    def setUp(self) -> None:
+        self.position = Position.objects.create(
+            name="test position"
+        )
+        self.worker = get_user_model().objects.create_user(
+            username="test user",
+            password="test12345",
+            position=self.position
+        )
+
+    def test_login_required_workers(self):
+        response = self.client.get(WORKERS_URL)
+
+        self.assertNotEqual(response.status_code, 200)
+
+    def test_worker_detail_login_required(self):
+        response = self.client.get(reverse(
+            "company:worker-detail", kwargs={"pk": self.worker.id}
+        ))
+
+        self.assertNotEqual(response.status_code, 200)
+
+    def test_worker_update_login_required(self):
+        response = self.client.get(reverse(
+            "company:worker-update", kwargs={"pk": self.worker.id}
+        ))
+
+        self.assertNotEqual(response.status_code, 200)
+
+    def test_worker_create_login_required(self):
+        response = self.client.get(reverse("company:worker-create"))
+
+        self.assertNotEqual(response.status_code, 200)
+
+
+class PrivateWorkerTests(TestCase):
+    def setUp(self) -> None:
+        self.position = Position.objects.create(
+            name="test position"
+        )
+        self.worker = get_user_model().objects.create_user(
+            username="test user",
+            password="password456",
+            position=self.position
+        )
+        self.client.force_login(self.worker)
+
+    def test_retrieve_workers(self):
+        for worker_id in range(2, 4):
+            position = Position.objects.create(
+                name=f"test position{worker_id}"
+            )
+            get_user_model().objects.create_user(
+                username=f"driver{worker_id}",
+                password=f"driver1234{worker_id}",
+                position=position
+            )
+
+        response = self.client.get(WORKERS_URL)
+
+        workers = get_user_model().objects.all()
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            list(response.context["worker_list"]),
+            list(workers)
+        )
+        self.assertTemplateUsed(response, "company/worker_list.html")
+
+    def test_worker_detail_login_required(self):
+        response = self.client.get(reverse(
+            "company:worker-detail", kwargs={"pk": self.worker.id}
+        ))
+
+        self.assertEqual(response.status_code, 200)
+
+    def test_worker_create_login_required(self):
+        response = self.client.get(reverse("company:worker-create"))
+
+        self.assertEqual(response.status_code, 200)
+
+    def test_worker_update_login_required(self):
+        response = self.client.get(reverse(
+            "company:worker-update", kwargs={"pk": self.worker.id}
+        ))
+
+        self.assertEqual(response.status_code, 200)
+
+    def test_search_worker_form(self):
+
+        response = self.client.get(
+            reverse("company:worker-detail",
+                    kwargs={"pk": self.worker.id}
+                    ) + "?username=test user"
+        )
+
+        self.assertContains(
+            response,
+            "test user"
+        )
+        self.assertNotContains(
+            response,
+            "Paul"
+        )
+
+    def test_get_absolute_url(self):
+        worker = get_user_model().objects.get(id=1)
+
+        self.assertEqual(
+            worker.get_absolute_url(),
+            reverse("company:worker-detail",
+                    kwargs={"pk": self.worker.id})
+        )
