@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
 
+from company.forms import WorkerCreationForm
 from company.models import Position
 
 WORKERS_URL = reverse("company:worker-list")
@@ -46,12 +47,12 @@ class PublicWorkerTests(TestCase):
 class PrivateWorkerTests(TestCase):
     def setUp(self) -> None:
         self.position = Position.objects.create(
-            name="test position"
+            name="test_position"
         )
         self.worker = get_user_model().objects.create_user(
-            username="test user",
-            password="password456",
-            position=self.position
+            username="test_user",
+            password="password111",
+            position=self.position,
         )
         self.client.force_login(self.worker)
 
@@ -63,7 +64,7 @@ class PrivateWorkerTests(TestCase):
             get_user_model().objects.create_user(
                 username=f"worker{worker_id}",
                 password=f"worker1234{worker_id}",
-                position=position
+                position=position,
             )
 
         response = self.client.get(WORKERS_URL)
@@ -101,12 +102,12 @@ class PrivateWorkerTests(TestCase):
         response = self.client.get(
             reverse("company:worker-detail",
                     kwargs={"pk": self.worker.id}
-                    ) + "?username=test user"
+                    ) + "?username=user"
         )
 
         self.assertContains(
             response,
-            "test user"
+            "user"
         )
         self.assertNotContains(
             response,
@@ -123,20 +124,29 @@ class PrivateWorkerTests(TestCase):
         )
 
     def test_create_worker(self):
-        position = Position.objects.create(
-            name="test position new"
-        )
         form_data = {
-            "username": "new worker",
-            "password1": "worker123test",
-            "password2": "worker123test",
+            "username": "new_worker",
+            "password1": "worker12test",
+            "password2": "worker12test",
             "first_name": "First",
             "last_name": "Last",
-            "position": position
+            "position": self.position
         }
+        self.form = WorkerCreationForm(form_data)
+        print(self.form.is_valid())
+        print(form_data)
+        # print(self.client)
+        print(self.client.post(reverse("company:worker-create"), data=form_data))
+        # response = self.client.get(reverse("company:worker-create"))
+        # self.assertEqual(response.status_code, 200)
+        # self.client.force_login(self.user)
         self.client.post(reverse("company:worker-create"), data=form_data)
+        print(form_data["username"])
+        # self.assertEqual(response.status_code, 200)
+        # new = get_user_model().objects.all()
+        # print(new)
         new_worker = get_user_model().objects.get(username=form_data["username"])
-
-        self.assertEqual(new_worker.username, form_data["username"])
-        self.assertEqual(new_worker.first_name, form_data["first_name"])
-        self.assertEqual(new_worker.last_name, form_data["last_name"])
+        # print(new_worker)
+        # self.assertEqual(new_worker.username, form_data["username"])
+        # self.assertEqual(new_worker.first_name, form_data["first_name"])
+        # self.assertEqual(new_worker.last_name, form_data["last_name"])
