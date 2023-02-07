@@ -169,9 +169,12 @@ class TaskDetailTests(TestCase):
 
     def test_add_workers_with_redirect(self):
         response = self.client.get(
-            reverse('company:worker-update-task', kwargs={"pk": self.task.id})
+            reverse("company:worker-update-task", kwargs={"pk": self.task.id})
         )
-        new_assignees = self.task.assignees.add(self.worker, self.another_worker)
+        new_assignees = self.task.assignees.add(
+            self.worker,
+            self.another_worker
+        )
 
         self.assertNotEqual(
             self.assignees, new_assignees
@@ -181,7 +184,7 @@ class TaskDetailTests(TestCase):
     def test_remove_workers_with_redirect(self):
         self.task.assignees.add(self.worker, self.another_worker)
         response = self.client.get(
-            reverse('company:worker-update-task', kwargs={"pk": self.task.id})
+            reverse("company:worker-update-task", kwargs={"pk": self.task.id})
         )
         self.task.assignees.remove(self.worker, self.another_worker)
 

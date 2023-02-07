@@ -61,8 +61,8 @@ class PrivateWorkerTests(TestCase):
                 name=f"test position{worker_id}"
             )
             get_user_model().objects.create_user(
-                username=f"driver{worker_id}",
-                password=f"driver1234{worker_id}",
+                username=f"worker{worker_id}",
+                password=f"worker1234{worker_id}",
                 position=position
             )
 
@@ -121,3 +121,22 @@ class PrivateWorkerTests(TestCase):
             reverse("company:worker-detail",
                     kwargs={"pk": self.worker.id})
         )
+
+    def test_create_worker(self):
+        position = Position.objects.create(
+            name="test position new"
+        )
+        form_data = {
+            "username": "new worker",
+            "password1": "worker123test",
+            "password2": "worker123test",
+            "first_name": "First",
+            "last_name": "Last",
+            "position": position
+        }
+        self.client.post(reverse("company:worker-create"), data=form_data)
+        new_worker = get_user_model().objects.get(username=form_data["username"])
+
+        self.assertEqual(new_worker.username, form_data["username"])
+        self.assertEqual(new_worker.first_name, form_data["first_name"])
+        self.assertEqual(new_worker.last_name, form_data["last_name"])
