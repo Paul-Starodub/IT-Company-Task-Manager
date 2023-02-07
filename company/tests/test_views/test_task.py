@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
 from django.test import TestCase
 from django.urls import reverse
 from django.utils.timezone import now
@@ -129,6 +130,8 @@ class PrivateTaskTests(TestCase):
 
 class TaskDetailTests(TestCase):
     def setUp(self) -> None:
+        self.position = Position.objects.create(name="red")
+
         self.task_type = TaskType.objects.create(
             name="test778"
         )
@@ -139,14 +142,19 @@ class TaskDetailTests(TestCase):
             deadline=now(),
             task_type=self.task_type
         )
-
-        self.position = Position.objects.create(name="red")
-
         self.worker = get_user_model().objects.create_user(
             username="test",
             password="password123",
             position=self.position
         )
+
+        self.another_worker = get_user_model().objects.create_user(
+            username="worker",
+            password="test123450",
+            position=self.position
+        )
+
+        self.assignees = self.task.assignees.all()
         self.client.force_login(self.worker)
 
     def test_detail_task(self):
@@ -158,3 +166,27 @@ class TaskDetailTests(TestCase):
             response,
             "company/task_detail.html"
         )
+
+    def test_add_workers_with_redirect(self):
+        response = self.client.get(
+            reverse('company:worker-update-task', kwargs={"pk": self.task.id})
+        )
+        new_assignees = self.task.assignees.add(self.worker, self.another_worker)
+
+        self.assertNotEqual(
+            self.assignees, new_assignees
+        )
+        self.assertEqual(response.status_code, 302)
+
+    def test_remove_workers_with_redirect(self):
+        self.task.assignees.add(self.worker, self.another_worker)
+        response = self.client.get(
+            reverse('company:worker-update-task', kwargs={"pk": self.task.id})
+        )
+        self.task.assignees.remove(self.worker, self.another_worker)
+
+        self.assertEqual(response.status_code, 302)
+
+    def test_task_deadline(self):
+
+        self.assertRaises(ValidationError, self.task.full_clean)
