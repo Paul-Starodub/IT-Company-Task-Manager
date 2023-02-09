@@ -35,11 +35,17 @@
       <p>No workers!</p>
     {% endfor %}
     {% if worker not in task_workers %}
-      <a href="{% url 'company:worker-update-task' pk=task.pk %}" class="btn btn-success link-to-page">
+      <a
+        href="{% url 'company:worker-update-task' pk=task.pk %}"
+        class="btn btn-success link-to-page text-white"
+      >
         Assign me to this task
       </a>
     {% else %}
-      <a href="{% url 'company:worker-update-task' pk=task.pk %}" class="btn btn-danger link-to-page">
+      <a
+        href="{% url 'company:worker-update-task' pk=task.pk %}"
+        class="btn btn-danger link-to-page text-white"
+      >
         Delete me from this task
       </a>
     {% endif %}
