@@ -1,24 +1,24 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>
+  <h1 class="text-white">
     Task List
-    <a style="float: right" class="btn btn-secondary" href="{% url 'company:task-create' %}">Create</a>
+    <a style="float: right" class="btn btn-outline-light" href="{% url 'company:task-create' %}">Create</a>
   </h1>
   <form action="" method="get" class="form-inline">
     {{ search_form.name }}
     <input class="btn btn-secondary" type="submit" value="🔎">
   </form>
   {% if task_list %}
-    <table class="table">
-      <tr>
+    <table class="table shadow text-white fw-bold">
+      <tr class="text-white-50">
         <th>ID</th>
-        <th>Name</th>
-        <th>Deadline</th>
-        <th>Status</th>
-        <th>Priority</th>
-        <th>Update</th>
-        <th>Delete</th>
+        <th>NAME</th>
+        <th>DEADLINE</th>
+        <th>STATUS</th>
+        <th>PRIORITY</th>
+        <th>UPDATE</th>
+        <th>DELETE</th>
       </tr>
       {% for task in task_list %}
         <tr>
@@ -35,10 +35,10 @@
             {{ task.get_priority_display }}
           </td>
           <td>
-            <a href="{% url 'company:task-update' pk=task.pk %}">UPDATE</a>
+            <a class="fw-bold" href="{% url 'company:task-update' pk=task.pk %}">Update</a>
           </td>
           <td>
-            <a href="{% url 'company:task-delete' pk=task.pk %}">DELETE</a>
+            <a class="fw-bold" href="{% url 'company:task-delete' pk=task.pk %}">Delete</a>
           </td>
         </tr>
       {% endfor %}
