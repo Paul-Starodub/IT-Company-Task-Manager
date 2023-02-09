@@ -1,21 +1,21 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>
+  <h1 class="text-white">
     Task Type List
-    <a style="float: right" class="btn btn-secondary" href="{% url 'company:task-type-create' %}">Create</a>
+    <a style="float: right" class="btn btn-outline-light" href="{% url 'company:task-type-create' %}">Create</a>
   </h1>
   <form action="" method="get" class="form-inline">
     {{ search_form.name }}
     <input class="btn btn-secondary" type="submit" value="🔎">
   </form>
   {% if task_types_list %}
-    <table class="table">
+    <table class="table shadow text-white fw-bold">
       <tr>
         <th>ID</th>
-        <th>Name</th>
-        <th>Update</th>
-        <th>Delete</th>
+        <th>NAME</th>
+        <th>UPDATE</th>
+        <th>DELETE</th>
       </tr>
       {% for type in task_types_list %}
         <tr>
@@ -23,13 +23,13 @@
             {{ type.id }}
           </td>
           <td>
-            {{ type.name }}
+            <a href="{{ type.get_absolute_url }}">{{ type.name }}</a>
           </td>
           <td>
-            <a href="{% url 'company:task-type-update' pk=type.pk %}">UPDATE</a>
+            <a href="{% url 'company:task-type-update' pk=type.pk %}">Update</a>
           </td>
           <td>
-            <a href="{% url 'company:task-type-delete' pk=type.pk %}">DELETE</a>
+            <a href="{% url 'company:task-type-delete' pk=type.pk %}">Delete</a>
           </td>
         </tr>
       {% endfor %}
