@@ -1,0 +1,21 @@
+body {
+    margin-top: 20px;
+    background-image: url("/static/assets/img/curved-images/office-1730940_1920.jpg");
+}
+
+.link-to-page {
+    float: right;
+    margin: 0 2px 0 2px;
+}
+
+a:visited {
+    color: #cb0c9f;
+}
+
+a:hover {
+    color: #ff3d59;
+}
+
+.shadow {
+    text-shadow: 1px 1px 1px darkblue;
+}
