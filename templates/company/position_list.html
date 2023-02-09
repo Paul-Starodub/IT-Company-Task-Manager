@@ -5,9 +5,9 @@
     Position List
     <a style="float: right" class="btn btn-outline-light" href="{% url 'company:position-create' %}">Create</a>
   </h1>
-   <form action="" method="get" class="form-inline">
+   <form  action="" method="get" class="text-white">
     {{ search_form.name }}
-    <input class="btn btn-outline-light" type="submit" value="🔎">
+    <input type="submit" value="🔎" class="btn btn-outline-light">
   </form>
   {% if position_list %}
     <table class="table shadow text-white fw-bold">
