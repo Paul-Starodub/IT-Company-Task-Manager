@@ -1,21 +1,21 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>
+  <h1 class="text-white">
     Position List
-    <a style="float: right" class="btn btn-secondary" href="{% url 'company:position-create' %}">Create</a>
+    <a style="float: right" class="btn btn-outline-light" href="{% url 'company:position-create' %}">Create</a>
   </h1>
    <form action="" method="get" class="form-inline">
     {{ search_form.name }}
-    <input class="btn btn-secondary" type="submit" value="🔎">
+    <input class="btn btn-outline-light" type="submit" value="🔎">
   </form>
   {% if position_list %}
-    <table class="table">
-      <tr>
+    <table class="table shadow text-white fw-bold">
+      <tr class="fw-bold">
         <th>ID</th>
-        <th>Name</th>
-        <th>Update</th>
-        <th>Delete</th>
+        <th>NAME</th>
+        <th>UPDATE</th>
+        <th>DELETE</th>
       </tr>
       {% for position in position_list %}
         <tr>
@@ -23,13 +23,13 @@
             {{ position.id }}
           </td>
           <td>
-            {{ position.name }}
+            <a href="{% url 'company:position-detail' pk=position.id %}">{{ position.name }}</a>
           </td>
           <td>
-            <a href="{% url 'company:position-update' pk=position.pk %}">UPDATE</a>
+            <a href="{% url 'company:position-update' pk=position.pk %}">Update</a>
           </td>
           <td>
-            <a href="{% url 'company:position-delete' pk=position.pk %}">DELETE</a>
+            <a href="{% url 'company:position-delete' pk=position.pk %}">Delete</a>
           </td>
         </tr>
       {% endfor %}
