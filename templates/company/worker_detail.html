@@ -24,10 +24,16 @@
     <p>No tasks!</p>
   {% endfor %}
   </ul>
-  <a href="{% url 'company:worker-delete' pk=worker.pk %}" class="btn btn-danger link-to-page">
+  <a
+    href="{% url 'company:worker-delete' pk=worker.pk %}"
+    class="btn btn-danger link-to-page text-white"
+  >
     Delete
   </a>
-  <a href="{% url 'company:worker-update' pk=worker.pk %}" class="btn btn-outline-light link-to-page">
+  <a
+    href="{% url 'company:worker-update' pk=worker.pk %}"
+    class="btn btn-outline-light link-to-page"
+  >
     Update position
   </a>
 {% endblock %}
