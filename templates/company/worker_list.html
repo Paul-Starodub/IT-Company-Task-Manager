@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>
+    <h1 class="text-white">
       Worker List
-     <a style="float: right" class="btn btn-secondary" href="{% url 'company:worker-create' %}">
+     <a style="float: right" class="btn btn-outline-light" href="{% url 'company:worker-create' %}">
        Create
      </a>
     </h1>
@@ -13,8 +13,8 @@
   </form>
 
     {% if worker_list %}
-    <table class="table">
-      <tr>
+    <table class="table shadow text-white fw-bold">
+      <tr class="text-white-50">
         <th>ID</th>
         <th>Username</th>
         <th>First name</th>
