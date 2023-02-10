@@ -1,17 +1,17 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1 class="text-white">
+  <h1>
     Position List
-    <a style="float: right" class="btn btn-outline-light" href="{% url 'company:position-create' %}">Create</a>
+    <a style="float: right" class="btn btn-secondary" href="{% url 'company:position-create' %}">Create</a>
   </h1>
    <form  action="" method="get" class="text-white">
     {{ search_form.name }}
     <input type="submit" value="🔎" class="btn btn-outline-light">
   </form>
   {% if position_list %}
-    <table class="table shadow text-white fw-bold">
-      <tr class="fw-bold">
+    <table class="table text-bold">
+      <tr>
         <th>ID</th>
         <th>NAME</th>
         <th>UPDATE</th>
