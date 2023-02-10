@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1 class="text-white">Name: {{ position.name }}</h1>
+  <h1>Name: {{ position.name }}</h1>
   <div class="ml-3">
     <h3>Workers:</h3>
     {% for worker in position.workers.all %}
