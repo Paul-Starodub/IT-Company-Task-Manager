@@ -9,13 +9,9 @@ body {
 }
 
 a:visited {
-    color: #cb0c9f;
+    color: #7928CA;
 }
 
 a:hover {
     color: #ff3d59;
-}
-
-.shadow {
-    text-shadow: 1px 1px 1px darkblue;
 }
