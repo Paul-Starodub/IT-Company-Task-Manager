@@ -1,16 +1,16 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1 class="text-white">
+  <h1>
     Task Type List
-    <a style="float: right" class="btn btn-outline-light" href="{% url 'company:task-type-create' %}">Create</a>
+    <a style="float: right" class="btn btn-secondary" href="{% url 'company:task-type-create' %}">Create</a>
   </h1>
   <form action="" method="get" class="form-inline">
     {{ search_form.name }}
     <input class="btn btn-outline-light" type="submit" value="🔎">
   </form>
   {% if task_types_list %}
-    <table class="table shadow text-white fw-bold">
+    <table class="table text-bold">
       <tr>
         <th>ID</th>
         <th>NAME</th>
