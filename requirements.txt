@@ -6,3 +6,4 @@ pep8-naming==0.13.3
 django-debug-toolbar==3.8.1
 django-crispy-forms==1.14.0
 crispy-bootstrap5==0.7
+python-dotenv~=0.21.1
