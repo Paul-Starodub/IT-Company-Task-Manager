@@ -35,7 +35,7 @@ class AdminSiteTests(TestCase):
         self.assertContains(response, self.worker.first_name)
         self.assertContains(response, self.worker.last_name)
         self.assertContains(response, self.worker.email)
-        self.assertContains(response, self.worker.print_staff)
+        self.assertContains(response, self.worker.staff)
 
     def test_worker_detail_position_listed(self):
         """Tests that worker's position is in worker detail admin page"""
