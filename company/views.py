@@ -39,11 +39,7 @@ class IndexView(LoginRequiredMixin, generic.TemplateView):
 
         context.update(home_context)
 
-        if "num_visits" in self.request.session:
-            self.request.session["num_visits"] += 1
-        else:
-            self.request.session["num_visits"] = 1
-
+        self.request.session["num_visits"] = self.request.session.get("num_visits", 0) + 1
         context["num_visits"] = self.request.session.get("num_visits", 1)
 
         return context
