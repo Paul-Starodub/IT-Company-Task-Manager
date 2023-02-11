@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
@@ -6,9 +8,9 @@ from django.urls import reverse
 from django.utils.timezone import now
 
 
-def validate_deadline(deadline):
+def validate_deadline(deadline: datetime) -> None:
     today = now()
-    if (deadline.month - today.month) < 1:
+    if (deadline.day - today.day) < 30:
         raise ValidationError("Give it at least a month")
 
 
@@ -52,16 +54,16 @@ class Worker(AbstractUser):
         return f"{self.username} ({self.first_name} {self.last_name})"
 
     @staticmethod
-    def print_status(position: bool) -> str:
+    def __print_status(position: bool) -> str:
         return "Yes" if position else "No"
 
     @property
-    def print_active(self) -> str:
-        return self.print_status(self.is_active)
+    def active(self) -> str:
+        return self.__print_status(self.is_active)
 
     @property
-    def print_staff(self) -> str:
-        return self.print_status(self.is_staff)
+    def staff(self) -> str:
+        return self.__print_status(self.is_staff)
 
     def get_absolute_url(self) -> str:
         return reverse("company:worker-detail", kwargs={"pk": self.pk})
@@ -101,7 +103,7 @@ class Task(models.Model):
         return f"{self.name} {self.task_type.name}"
 
     @property
-    def print_completed(self) -> str:
+    def completed(self) -> str:
         return "Done" if self.is_completed else "In work"
 
     def get_absolute_url(self) -> str:
