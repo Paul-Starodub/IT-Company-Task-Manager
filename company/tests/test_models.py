@@ -71,7 +71,7 @@ class TaskTests(TestCase):
         )
 
     def test_task_property(self):
-        self.assertEqual(self.task.print_completed, "In work")
+        self.assertEqual(self.task.completed, "In work")
 
 
 class WorkerTests(TestCase):
@@ -111,5 +111,5 @@ class WorkerTests(TestCase):
 
     def test_worker_properties(self):
 
-        self.assertEqual(self.worker.print_staff, "Yes")
-        self.assertEqual(self.worker.print_active, "Yes")
+        self.assertEqual(self.worker.staff, "Yes")
+        self.assertEqual(self.worker.active, "Yes")
