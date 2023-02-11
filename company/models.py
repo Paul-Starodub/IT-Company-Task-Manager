@@ -1,4 +1,4 @@
-from datetime import datetime
+import datetime
 
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
@@ -10,7 +10,7 @@ from django.utils.timezone import now
 
 def validate_deadline(deadline: datetime) -> None:
     today = now()
-    if (deadline.day - today.day) < 30:
+    if deadline < today.date() + datetime.timedelta(weeks=4):
         raise ValidationError("Give it at least a month")
 
 
