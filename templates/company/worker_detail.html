@@ -7,8 +7,8 @@
   <p><strong>First name:</strong> {{ worker.first_name }}</p>
   <p><strong>Last name:</strong> {{ worker.last_name }}</p>
   <p><strong>Email:</strong> {{ worker.email }}</p>
-  <p><strong>Active:</strong> {{ worker.print_active }}</p>
-  <p><strong>Is staff:</strong> {{ worker.print_staff }}</p>
+  <p><strong>Active:</strong> {{ worker.active }}</p>
+  <p><strong>Is staff:</strong> {{ worker.staff }}</p>
   <p><strong>Date joined:</strong> {{ worker.date_joined|date:"D d M Y" }}</p>
   <p>
     {% if worker.is_superuser %}
