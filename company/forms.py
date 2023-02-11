@@ -37,7 +37,7 @@ class TaskUpdateForm(forms.ModelForm):
 
     def clean_description(self):
         description = self.cleaned_data["description"]
-        if not (description[:1].isupper() and description[:1].isalpha()):
+        if not (description[0].isupper() and description[0].isalpha()):
             raise ValidationError(
                 "First character must be capital letter"
             )
