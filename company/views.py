@@ -39,7 +39,9 @@ class IndexView(LoginRequiredMixin, generic.TemplateView):
 
         context.update(home_context)
 
-        self.request.session["num_visits"] = self.request.session.get("num_visits", 0) + 1
+        self.request.session["num_visits"] = self.request.session.get(
+            "num_visits", 0
+        ) + 1
         context["num_visits"] = self.request.session.get("num_visits", 1)
 
         return context
@@ -134,7 +136,9 @@ class TaskListView(LoginRequiredMixin, SearchMixin, generic.ListView):
         self.queryset = super().get_queryset()
 
         if "is_completed" in self.request.GET.keys():
-            return self.queryset.filter(is_completed=self.request.GET["is_completed"])
+            return self.queryset.filter(
+                is_completed=self.request.GET["is_completed"]
+            )
 
         return self.queryset
 
