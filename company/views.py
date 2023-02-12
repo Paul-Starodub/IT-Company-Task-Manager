@@ -134,7 +134,7 @@ class TaskListView(LoginRequiredMixin, SearchMixin, generic.ListView):
         self.queryset = super().get_queryset()
 
         if "is_completed" in self.request.GET.keys():
-            return self.queryset.exclude(is_completed=self.request.GET["is_completed"])
+            return self.queryset.filter(is_completed=self.request.GET["is_completed"])
 
         return self.queryset
 
@@ -143,12 +143,6 @@ class TaskDetailView(LoginRequiredMixin, generic.DetailView):
     """Class for viewing the detail information about task on the site """
 
     model = Task
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["task_workers"] = self.object.assignees.all()
-        context["worker"] = self.request.user
-        return context
 
 
 class TaskCreateView(LoginRequiredMixin, generic.CreateView):
