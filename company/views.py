@@ -130,6 +130,14 @@ class TaskListView(LoginRequiredMixin, SearchMixin, generic.ListView):
     paginate_by = 10
     class_name = Task
 
+    def get_queryset(self):
+        self.queryset = super().get_queryset()
+
+        if "is_completed" in self.request.GET.keys():
+            return self.queryset.exclude(is_completed=self.request.GET["is_completed"])
+
+        return self.queryset
+
 
 class TaskDetailView(LoginRequiredMixin, generic.DetailView):
     """Class for viewing the detail information about task on the site """
