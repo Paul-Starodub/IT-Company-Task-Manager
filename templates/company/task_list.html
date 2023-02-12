@@ -47,4 +47,25 @@
   {% else  %}
     <p>There are not tasks in company now</p>
   {% endif %}
+  <form>
+    <div>
+      <input
+        type="radio"
+        id="completed"
+        name="is_completed"
+        value="True" />
+      <label for="completed">Show only tasks in progress?</label>
+    </div>
+    <div>
+      <input
+        type="radio"
+        id="completed"
+        name="is_completed"
+        value="False" />
+      <label for="completed">Show done tasks?</label>
+    </div>
+    <div>
+      <button class="btn btn-secondary">Submit</button>
+    </div>
+  </form>
 {% endblock %}
