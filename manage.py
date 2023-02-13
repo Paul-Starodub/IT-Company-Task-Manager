@@ -6,7 +6,10 @@ import sys
 
 def main():
     """Run administrative tasks."""
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'it_company_task_manager.settings')
+    os.environ.setdefault(
+        "DJANGO_SETTINGS_MODULE",
+        "it_company_task_manager.settings"
+    )
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
@@ -15,8 +18,12 @@ def main():
             "available on your PYTHONPATH environment variable? Did you "
             "forget to activate a virtual environment?"
         ) from exc
+    if len(sys.argv) == 2 and sys.argv[1] == "migrate":
+        execute_from_command_line(
+            ["manage.py", "loaddata", "it_company_task_manager_db_data.json"]
+        )
     execute_from_command_line(sys.argv)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

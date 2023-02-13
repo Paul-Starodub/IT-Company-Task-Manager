@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Name: {{ position.name }}</h1>
+  <div class="ml-3">
+    <h3>Workers:</h3>
+    {% for worker in position.workers.all %}
+      <hr>
+      <p class="text-muted">
+        <strong>Username:</strong>
+        {{ worker.username }}
+        <br>
+        <strong>Full name:</strong>
+        {{ worker.first_name }} {{ worker.last_name }}
+        <br>
+        <strong>Email:</strong>
+        {{ worker.email }}
+        <br>
+        <strong>Active:</strong>
+        {{ worker.print_active }}
+        <br>
+        <strong>Date of employment:</strong>
+        {{ worker.date_joined }}
+        </p>
+    {% empty %}
+      <p>No workers!</p>
+    {% endfor %}
+  </div>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>
+    Position List
+    <a style="float: right" class="btn btn-secondary text-white" href="{% url 'company:position-create' %}">Create</a>
+  </h1>
+   <form  action="" method="get" class="text-white">
+    {{ search_form.name }}
+    <input type="submit" value="🔎" class="btn btn-outline-light">
+  </form>
+  {% if position_list %}
+    <table class="table text-bold">
+      <tr>
+        <th>ID</th>
+        <th>NAME</th>
+        <th>UPDATE</th>
+        <th>DELETE</th>
+      </tr>
+      {% for position in position_list %}
+        <tr>
+          <td>
+            {{ position.id }}
+          </td>
+          <td>
+            <a href="{% url 'company:position-detail' pk=position.id %}">{{ position.name }}</a>
+          </td>
+          <td>
+            <a href="{% url 'company:position-update' pk=position.pk %}">Update</a>
+          </td>
+          <td>
+            <a href="{% url 'company:position-delete' pk=position.pk %}">Delete</a>
+          </td>
+        </tr>
+      {% endfor %}
+
+    </table>
+  {% else  %}
+    <p>There are not positions in company</p>
+  {% endif %}
+{% endblock %}

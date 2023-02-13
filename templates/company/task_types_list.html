@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>
+    Task Type List
+    <a style="float: right" class="btn btn-secondary text-white" href="{% url 'company:task-type-create' %}">Create</a>
+  </h1>
+  <form action="" method="get" class="form-inline">
+    {{ search_form.name }}
+    <input class="btn btn-outline-light" type="submit" value="🔎">
+  </form>
+  {% if task_types_list %}
+    <table class="table text-bold">
+      <tr>
+        <th>ID</th>
+        <th>NAME</th>
+        <th>UPDATE</th>
+        <th>DELETE</th>
+      </tr>
+      {% for type in task_types_list %}
+        <tr>
+          <td>
+            {{ type.id }}
+          </td>
+          <td>
+            <a href="{{ type.get_absolute_url }}">{{ type.name }}</a>
+          </td>
+          <td>
+            <a href="{% url 'company:task-type-update' pk=type.pk %}">Update</a>
+          </td>
+          <td>
+            <a href="{% url 'company:task-type-delete' pk=type.pk %}">Delete</a>
+          </td>
+        </tr>
+      {% endfor %}
+
+    </table>
+  {% else  %}
+    <p>There are not task types in company</p>
+  {% endif %}
+{% endblock %}
