@@ -71,6 +71,10 @@ class PrivateWorkerTests(TestCase):
         workers = get_user_model().objects.all()
 
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            list(response.context["worker_list"]),
+            list(workers)
+        )
         self.assertTemplateUsed(response, "company/worker_list.html")
 
     def test_worker_detail_login_required(self):
@@ -110,7 +114,7 @@ class PrivateWorkerTests(TestCase):
         )
 
     def test_get_absolute_url(self):
-        worker = get_user_model().objects.get(id=12)
+        worker = get_user_model().objects.get(id=1)
 
         self.assertEqual(
             worker.get_absolute_url(),
