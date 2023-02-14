@@ -148,6 +148,11 @@ class TaskDetailView(LoginRequiredMixin, generic.DetailView):
 
     model = Task
 
+    def get_context_data(self, **kwargs):  # reduce the load on the database
+        context = super().get_context_data(**kwargs)
+        context["task_workers"] = self.object.assignees.all()
+        return context
+
 
 class TaskCreateView(LoginRequiredMixin, generic.CreateView):
     """Class for creating a new task"""

@@ -24,7 +24,7 @@
   <hr>
   <div class="ml-3">
     <h4>Workers:</h4>
-    {% for worker in object.assignees.all %}
+    {% for worker in task_workers %}
         <strong>Username:</strong>
         {{ worker.username }}
         <br>
@@ -34,7 +34,7 @@
     {% empty %}
       <p>No workers!</p>
     {% endfor %}
-    {% if user not in object.assignees.all %}
+    {% if user not in task_workers %}
       <a
         href="{% url 'company:worker-update-task' pk=task.pk %}"
         class="btn btn-success link-to-page text-white"
