@@ -34,7 +34,7 @@
     {% empty %}
       <p>No workers!</p>
     {% endfor %}
-    {% if worker not in object.assignees.all %}
+    {% if user not in object.assignees.all %}
       <a
         href="{% url 'company:worker-update-task' pk=task.pk %}"
         class="btn btn-success link-to-page text-white"
