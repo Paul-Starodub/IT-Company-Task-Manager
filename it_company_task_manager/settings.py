@@ -35,7 +35,7 @@ DEBUG = os.environ.get("DEBUG", "") != "False"
 
 ALLOWED_HOSTS = [
     "127.0.0.1",
-    "it-company-task-manager.onrender.com",
+    "it-company-task-manager-isaa.onrender.com",
     "0.0.0.0"
 ]
 
