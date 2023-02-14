@@ -47,7 +47,6 @@ class PrivatePositionTests(TestCase):
 
         for position in range(2, number_of_positions):
             Position.objects.create(
-                id=position,
                 name=f"{position}name",
             )
 
@@ -55,7 +54,8 @@ class PrivatePositionTests(TestCase):
 
         self.worker = get_user_model().objects.create_user(
             username="test",
-            password="password123"
+            password="password123",
+            position=self.position
         )
         self.client.force_login(self.worker)
 
@@ -103,4 +103,4 @@ class PrivatePositionTests(TestCase):
 
         self.assertTrue("is_paginated" in response.context)
         self.assertFalse(response.context["is_paginated"])
-        self.assertEqual(len(response.context["position_list"]), 6)
+        self.assertEqual(len(response.context["position_list"]), 11)
