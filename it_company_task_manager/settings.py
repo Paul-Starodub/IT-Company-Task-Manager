@@ -33,7 +33,11 @@ SECRET_KEY = os.environ["SECRET_KEY"]
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DEBUG", "") != "False"
 
-ALLOWED_HOSTS = ["127.0.0.1", "it-company-task-manager.onrender.com"]
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "it-company-task-manager.onrender.com",
+    "0.0.0.0"
+]
 
 INTERNAL_IPS = [
     "127.0.0.1",
